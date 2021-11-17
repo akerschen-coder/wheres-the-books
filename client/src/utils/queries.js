@@ -5,7 +5,7 @@ query {
     me {
         username
         email
-        SavedBooks {
+        savedBooks {
             bookId
             authors
             description
