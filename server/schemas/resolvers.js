@@ -5,7 +5,7 @@ const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
-        user: async (parent, args, context) => {
+        me: async (parent, args, context) => {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id }).populate('savedBooks');
                 // can I put {username} her instead?? 
@@ -42,12 +42,13 @@ const resolvers = {
         }, 
 
         //save book
-        saveBook: async (parent, { newBook }, context) => {
+        // saved books or input?
+        saveBook: async (parent, { input }, context) => {
             if(context.user) {
                 const updated = await User.findOneAndUpdate(
                     { _id: context.user._id },
                     //push or addtoSet???
-                    {$push: { savedBooks: { newBook }} },
+                    {$push: { savedBooks: { input }} },
                     { new: true },
                 );
                 return updated;
@@ -55,11 +56,11 @@ const resolvers = {
             throw new AuthenticationError('Gotta be logged in!')
         },
         //remove book
-        removeBook: async (parent, { oldBook }, context) => {
+        removeBook: async (parent, { bookId }, context) => {
             if(context.user) {
                 const updated = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    {$pull: { savedBooks: { oldBook }} },
+                    {$pull: { savedBooks: { bookId }} },
                     { new: true },
                 );
                 return updated;
