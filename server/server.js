@@ -1,8 +1,11 @@
 const express = require('express');
 const path = require('path');
 const db = require('./config/connection');
-const routes = require('./routes');
 
+// being replaced by schemas 
+//const routes = require('./routes');
+
+const { authMiddleWare } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schemas');
 const { ApolloServer } = require('apollo-server-express');
 
@@ -15,6 +18,7 @@ app.use(express.json());
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: authMiddleWare,
 });
 
 server.applyMiddleware({ app });
