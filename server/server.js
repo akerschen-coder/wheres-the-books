@@ -2,8 +2,6 @@ const express = require('express');
 const path = require('path');
 const db = require('./config/connection');
 
-// being replaced by schemas 
-//const routes = require('./routes');
 
 const { authMiddleWare } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schemas');
@@ -18,6 +16,8 @@ const server = new ApolloServer({
   context: authMiddleWare,
 });
 
+server.start().then(() => {
+  
 server.applyMiddleware({ app });
 
 app.use(express.urlencoded({ extended: true }));
@@ -34,3 +34,4 @@ if (process.env.NODE_ENV === 'production') {
 db.once('open', () => {
   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
 });
+})
