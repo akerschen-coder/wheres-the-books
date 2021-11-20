@@ -47,7 +47,6 @@ const resolvers = {
             if(context.user) {
                 const updated = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    //push or addtoSet???
                     {$push: { savedBooks: { bookData }} },
                     { new: true },
                 );
@@ -55,6 +54,7 @@ const resolvers = {
             }
             throw new AuthenticationError('Gotta be logged in!')
         },
+        
         //remove book
         removeBook: async (parent, { bookId }, context) => {
             if(context.user) {
