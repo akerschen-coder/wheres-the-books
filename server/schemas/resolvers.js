@@ -42,7 +42,6 @@ const resolvers = {
         }, 
 
         //save book
-        // saved books or input?
         saveBook: async (parent, { bookData }, context) => {
             if(context.user) {
                 const updated = await User.findOneAndUpdate(
@@ -52,9 +51,9 @@ const resolvers = {
                 );
                 return updated;
             }
-            throw new AuthenticationError('Gotta be logged in!')
+            throw new AuthenticationError('Ugh why arent we workin')
         },
-        
+
         //remove book
         removeBook: async (parent, { bookId }, context) => {
             if(context.user) {
