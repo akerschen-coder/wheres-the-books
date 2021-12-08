@@ -44,14 +44,14 @@ const resolvers = {
         //save book
         saveBook: async (parent, { bookData }, context) => {
             if(context.user) {
-                const updated = await User.findOneAndUpdate(
+                const updated = await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    {$push: { savedBooks: { bookData }} },
+                    {$push: { savedBooks:  bookData } },
                     { new: true },
                 );
                 return updated;
             }
-            throw new AuthenticationError('Ugh why arent we workin')
+            throw new AuthenticationError('got to be logged in homeboi')
         },
 
         //remove book
@@ -59,7 +59,7 @@ const resolvers = {
             if(context.user) {
                 const updated = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    {$pull: { savedBooks: { bookId }} },
+                    {$pull: { savedBooks:  {bookId} } },
                     { new: true },
                 );
                 return updated;
